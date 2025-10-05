@@ -1,0 +1,234 @@
+<div class="node-viewer-content" *ngIf="node">
+  <!-- Header -->
+  <div mat-dialog-title class="dialog-header">
+    <div class="header-content">
+      <h2>Visualizar Nó: {{ node.name }}</h2>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <mat-dialog-content class="dialog-content">
+    <mat-tab-group>
+      <!-- Informações Básicas -->
+      <mat-tab label="Informações">
+        <div class="tab-content info-tab-content">
+          <!-- Card de Descrição (apenas se houver descrição) -->
+          <mat-card class="description-card" *ngIf="node.description">
+            <mat-card-content>
+              <div class="description-content">
+                <mat-icon class="description-icon">description</mat-icon>
+                <div class="description-text">
+                  {{ node.description }}
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <!-- Card Compacto de Workflows -->
+          <mat-card class="compact-card" *ngIf="node.workflows && node.workflows.length > 0">
+            <mat-card-content>
+              <div class="compact-section">
+                <div class="section-header">
+                  <mat-icon class="section-icon">account_tree</mat-icon>
+                  <span class="section-title">Workflows</span>
+                </div>
+                <div class="workflow-chips">
+                  <mat-chip *ngFor="let workflow of node.workflows" color="primary">
+                    {{ getWorkflowName(workflow) }}
+                  </mat-chip>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <!-- Card Compacto de Propriedades -->
+          <mat-card class="compact-card" *ngIf="node.properties && (hasStandardProperties() || hasCustomProperties())">
+            <mat-card-content>
+              <div class="compact-section">
+                <div class="section-header">
+                  <mat-icon class="section-icon">settings</mat-icon>
+                  <span class="section-title">Propriedades</span>
+                </div>
+                
+                <!-- Propriedades Padrão -->
+                <div *ngIf="hasStandardProperties()" class="properties-grid">
+                  <div *ngFor="let item of node.properties.standardProps | keyvalue" class="property-item">
+                    <span class="property-label">{{ item.key }}:</span>
+                    <span class="property-value">{{ item.value }}</span>
+                  </div>
+                </div>
+
+                <!-- Propriedades Customizadas -->
+                <div *ngIf="hasCustomProperties()" class="properties-grid">
+                  <div *ngFor="let item of node.properties.customProps | keyvalue" class="property-item">
+                    <span class="property-label">{{ item.key }}:</span>
+                    <span class="property-value">{{ item.value }}</span>
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <!-- Mensagem quando não há propriedades -->
+          <mat-card class="compact-card" *ngIf="node.properties && !hasStandardProperties() && !hasCustomProperties()">
+            <mat-card-content>
+              <div class="empty-state">
+                <mat-icon>info_outline</mat-icon>
+                <span>Nenhuma propriedade definida</span>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <!-- Card de Informações de Auditoria -->
+          <mat-card class="compact-card">
+            <mat-card-content>
+              <div class="compact-section">
+                <div class="section-header">
+                  <mat-icon class="section-icon">history</mat-icon>
+                  <span class="section-title">Informações de Auditoria</span>
+                </div>
+                <div class="audit-info">
+                  <div class="audit-item">
+                    <span class="audit-label">Criado em:</span>
+                    <span class="audit-value">{{ formatDate(node.createdAt) }}</span>
+                  </div>
+                  <div class="audit-item">
+                    <span class="audit-label">Última atualização:</span>
+                    <span class="audit-value">{{ formatDate(node.updatedAt) }}</span>
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-tab>
+
+      <!-- Etapas -->
+      <mat-tab label="Etapas">
+        <div class="tab-content steps-tab-content">
+          <!-- Header com botão de gerenciar etapas -->
+          <div class="steps-header" *ngIf="node.steps.length > 0">
+            <button 
+              mat-stroked-button 
+              color="primary" 
+              (click)="onManageSteps()"
+              class="manage-steps-header-btn"
+            >
+              <mat-icon>settings</mat-icon>
+              Gerenciar Etapas
+            </button>
+          </div>
+
+          <mat-card class="info-card">
+            <mat-card-content>
+              <div class="steps-container" *ngIf="node.steps.length > 0; else noSteps">
+                <mat-expansion-panel *ngFor="let step of node.steps" class="step-panel">
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      <mat-icon class="step-icon">{{ getStepTypeIcon(step.type) }}</mat-icon>
+                      {{ step.name }}
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      {{ getStepTypeLabel(step.type) }}
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+                  
+                  <div class="step-content">
+                    <div class="step-description" *ngIf="step.description">
+                      <p>{{ step.description }}</p>
+                    </div>
+
+                    <!-- Decisão Associada (para etapas condicionais) -->
+                    <div class="step-decision" *ngIf="step.type === 'conditional' && step.decisionStepId">
+                      <h5>
+                        <mat-icon>help_outline</mat-icon>
+                        Decisão Associada:
+                      </h5>
+                      <div class="decision-info">
+                        <span>{{ getDecisionStepName(step.decisionStepId) }}</span>
+                      </div>
+                    </div>
+
+                    <!-- Conexões -->
+                    <div class="step-connections">
+                      <h5>
+                        <mat-icon>link</mat-icon>
+                        Conexões:
+                      </h5>
+                      <div class="connections-list" *ngIf="hasValidConnections(step.connections); else noConnections">
+                        <div *ngFor="let connection of step.connections" class="connection-item">
+                          <div class="connection-target" *ngIf="connection.targetNodeId">
+                            <strong>Para:</strong> 
+                            <button 
+                              mat-button
+                              color="primary"
+                              (click)="onConnectionClick(connection.targetNodeId)"
+                              [title]="'Clique para visualizar ' + getNodeName(connection.targetNodeId)"
+                            >
+                              {{ getNodeName(connection.targetNodeId) }}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <ng-template #noConnections>
+                        <div class="no-connections">
+                          <mat-icon>info_outline</mat-icon>
+                          <span>Nenhum nó associado</span>
+                        </div>
+                      </ng-template>
+                    </div>
+
+                    <!-- Workflows da Etapa -->
+                    <div class="step-workflows" *ngIf="step.workflows && step.workflows.length > 0">
+                      <h5>
+                        <mat-icon>account_tree</mat-icon>
+                        Workflows:
+                      </h5>
+                      <div class="workflow-chips">
+                        <mat-chip *ngFor="let workflow of step.workflows" color="accent">
+                          {{ getWorkflowName(workflow) }}
+                        </mat-chip>
+                      </div>
+                    </div>
+                  </div>
+                </mat-expansion-panel>
+              </div>
+
+              <ng-template #noSteps>
+                <div class="no-steps">
+                  <mat-icon>info_outline</mat-icon>
+                  <p>Este nó não possui etapas definidas.</p>
+                  <button 
+                    mat-raised-button 
+                    color="primary" 
+                    (click)="onManageSteps()"
+                    class="manage-steps-btn"
+                  >
+                    <mat-icon>add</mat-icon>
+                    Criar Primeira Etapa
+                  </button>
+                </div>
+              </ng-template>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-dialog-content>
+
+  <!-- Footer -->
+  <mat-dialog-actions class="dialog-actions">
+    <button mat-button (click)="onClose()">
+      <mat-icon>close</mat-icon>
+      Fechar
+    </button>
+    <button mat-button color="accent" (click)="onManageSteps()" *ngIf="node && node.steps.length > 0">
+      <mat-icon>list</mat-icon>
+      Gerenciar Etapas
+    </button>
+    <button mat-raised-button color="primary" (click)="onEdit()">
+      <mat-icon>edit</mat-icon>
+      Editar Nó
+    </button>
+  </mat-dialog-actions>
+</div>

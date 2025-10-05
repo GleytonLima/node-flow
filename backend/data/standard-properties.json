@@ -1,0 +1,28 @@
+[
+  {
+    "id": "prop_jwt65r8f6_1759519620323",
+    "name": "Prioridade",
+    "description": "Nível de prioridade da tarefa",
+    "type": "select",
+    "options": [
+      "Baixa",
+      "Média",
+      "Alta"
+    ],
+    "required": true,
+    "defaultValue": "Média",
+    "createdAt": "2025-10-03T19:27:00.323Z",
+    "updatedAt": "2025-10-04T03:39:05.027Z"
+  },
+  {
+    "id": "prop_lxk9jo684_1759519620331",
+    "name": "Status",
+    "description": "",
+    "type": "text",
+    "options": [],
+    "required": false,
+    "defaultValue": "",
+    "createdAt": "2025-10-03T19:27:00.331Z",
+    "updatedAt": "2025-10-03T19:27:00.331Z"
+  }
+]

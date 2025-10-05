@@ -1,0 +1,147 @@
+.steps-manager-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 32px;
+}
+
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--resources-border-light);
+
+  .header-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    h2 {
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  }
+}
+
+.dialog-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0;
+  margin-top: 16px;
+}
+
+.steps-container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.step-card {
+  transition: all 0.2s ease;
+  border: 1px solid var(--resources-border-light);
+  margin-bottom: 0;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  mat-card-header {
+    padding-bottom: 20px;
+  }
+
+  mat-card-content {
+    padding-top: 0;
+    padding-bottom: 20px;
+  }
+
+  mat-card-actions {
+    padding-top: 16px;
+    border-top: 1px solid var(--resources-border-light);
+    margin-top: 16px;
+  }
+
+  .step-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 20px 16px 16px 0;
+    border-top: 1px solid var(--resources-border-light);
+    margin-top: 20px;
+
+    button {
+      min-width: 100px;
+    }
+  }
+}
+
+.step-name {
+  margin: 0;
+}
+
+.step-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+// Chips usam estilos nativos do Angular Material
+
+// Chips de conexões usam estilos nativos do Angular Material
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+
+  .empty-icon {
+    font-size: 64px;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+  }
+
+  h3 {
+    margin: 0 0 8px 0;
+    font-size: 1.25rem;
+    font-weight: 500;
+  }
+
+  p {
+    margin: 0 0 24px 0;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+}
+
+.dialog-actions {
+  justify-content: flex-end;
+  padding: 16px 0 0 0;
+  border-top: 1px solid var(--resources-border-light);
+  margin-top: 24px;
+}
+
+// Responsividade
+@media (max-width: 768px) {
+  .dialog-content {
+    max-height: 60vh;
+  }
+
+  .dialog-header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+
+  .step-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+

@@ -1,0 +1,43 @@
+{
+  "version": "1.0",
+  "app": {
+    "name": "Resources Manager",
+    "version": "1.0.0",
+    "description": "Sistema de gerenciamento de recursos com interface visual drag-and-drop"
+  },
+  "canvas": {
+    "defaultZoom": 1,
+    "minZoom": 0.1,
+    "maxZoom": 3,
+    "gridSize": 20
+  },
+  "nodeTypes": {
+    "default": {
+      "width": 200,
+      "height": 100,
+      "color": "#4A90E2"
+    }
+  },
+  "stepTypes": {
+    "start": {
+      "color": "#4CAF50",
+      "shape": "circle"
+    },
+    "end": {
+      "color": "#F44336",
+      "shape": "circle"
+    },
+    "decision": {
+      "color": "#FF9800",
+      "shape": "diamond"
+    },
+    "parallel": {
+      "color": "#9C27B0",
+      "shape": "rectangle"
+    },
+    "process": {
+      "color": "#2196F3",
+      "shape": "rectangle"
+    }
+  }
+}

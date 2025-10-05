@@ -1,0 +1,39 @@
+<mat-sidenav-container class="sidebar-container">
+  <mat-sidenav mode="side" opened class="sidebar" [fixedInViewport]="false">
+    <mat-toolbar class="sidebar-header">
+      <span class="sidebar-title">Nós</span>
+    </mat-toolbar>
+
+    <div class="nodes-list">
+      <mat-card
+        *ngFor="let node of (nodes || [])"
+        class="node-card"
+        [class.selected]="selectedNode?.id === node.id"
+        (click)="selectNode(node)"
+      >
+        <mat-card-content class="node-content">
+          <div class="node-info">
+            <div class="node-name">{{ node.name }}</div>
+            <div class="node-description" *ngIf="node.description">
+              {{ node.description }}
+            </div>
+          </div>
+          <button 
+            mat-icon-button
+            (click)="editNode(node, $event)"
+            matTooltip="Editar nó"
+            aria-label="Editar nó"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+        </mat-card-content>
+      </mat-card>
+
+      <div *ngIf="nodes && nodes.length === 0" class="empty-state">
+        <mat-icon class="empty-icon">folder_open</mat-icon>
+        <p>Nenhum nó encontrado</p>
+        <small>Clique em "+ Novo Nó" para criar</small>
+      </div>
+    </div>
+  </mat-sidenav>
+</mat-sidenav-container>

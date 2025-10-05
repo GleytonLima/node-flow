@@ -1,0 +1,47 @@
+<mat-toolbar color="primary" class="app-toolbar">
+  <span class="app-title">{{ title }}</span>
+  
+  <span class="spacer"></span>
+  
+  <div class="app-actions">
+    <button mat-icon-button 
+            matTooltip="Gerenciar Workflows" 
+            (click)="onWorkflowsClick()"
+            aria-label="Gerenciar Workflows">
+      <mat-icon>account_tree</mat-icon>
+    </button>
+    
+    <button mat-icon-button 
+            matTooltip="Gerenciar Propriedades Padrão" 
+            (click)="onStandardPropertiesClick()"
+            aria-label="Gerenciar Propriedades Padrão">
+      <mat-icon>settings_applications</mat-icon>
+    </button>
+    
+    <button mat-icon-button 
+            matTooltip="Exportar para Draw.io" 
+            (click)="onExportClick()"
+            aria-label="Exportar para Draw.io">
+      <mat-icon>download</mat-icon>
+    </button>
+    
+    <button mat-icon-button 
+            matTooltip="Alternar Tema"
+            (click)="onToggleTheme()"
+            aria-label="Alternar Tema">
+      <mat-icon>{{ isDarkTheme ? 'light_mode' : 'dark_mode' }}</mat-icon>
+    </button>
+    
+    <button mat-icon-button 
+            matTooltip="Configurações"
+            aria-label="Configurações">
+      <mat-icon>settings</mat-icon>
+    </button>
+    
+    <button mat-icon-button 
+            matTooltip="Ajuda"
+            aria-label="Ajuda">
+      <mat-icon>help</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>

@@ -1,0 +1,122 @@
+<div class="deletion-confirmation-content">
+  <!-- Header -->
+  <div mat-dialog-title class="dialog-header">
+    <h2>
+      Confirmar Exclusão de Nó
+    </h2>
+  </div>
+
+  <!-- Content -->
+  <mat-dialog-content class="dialog-content">
+    <div *ngIf="deletionInfo">
+      <!-- Node Info Card -->
+      <mat-card class="node-info-card">
+        <mat-card-header>
+          <mat-card-title>
+            {{ deletionInfo.node.name }}
+          </mat-card-title>
+          <mat-card-subtitle>
+            <mat-chip class="node-id-chip">
+              {{ deletionInfo.node.id }}
+            </mat-chip>
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content *ngIf="deletionInfo.node.description">
+          <p>{{ deletionInfo.node.description }}</p>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Dependencies Warning Card -->
+      <mat-card class="dependencies-card" *ngIf="deletionInfo.dependencies.length > 0">
+        <mat-card-header>
+          <mat-card-title>
+            Este nó possui conexões
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="warning-content">
+            <p class="warning-text">
+              O nó <strong>"{{ deletionInfo.node.name }}"</strong> possui 
+              <strong>{{ deletionInfo.dependencies.length }}</strong> conexão(ões) 
+              que serão removidas automaticamente:
+            </p>
+
+            <div class="dependencies-list">
+              <mat-card 
+                *ngFor="let dependency of deletionInfo.dependencies" 
+                class="dependency-item"
+              >
+                <mat-card-content>
+                  <div class="dependency-info">
+                    <div class="dependency-flow">
+                      <mat-chip class="source-chip">
+                        {{ dependency.nodeName }}
+                      </mat-chip>
+                      <mat-icon class="arrow-icon">arrow_forward</mat-icon>
+                      <mat-chip class="target-chip">
+                        {{ dependency.stepName }}
+                      </mat-chip>
+                    </div>
+                    <div class="dependency-details">
+                      <small>Etapa: {{ dependency.stepName }}</small>
+                    </div>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </div>
+
+            <div class="impact-warning">
+              <p><strong>Impacto:</strong> As conexões listadas acima serão removidas permanentemente.</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Safe Deletion Card -->
+      <mat-card class="safe-deletion-card" *ngIf="deletionInfo.dependencies.length === 0">
+        <mat-card-header>
+          <mat-card-title>
+            Exclusão Segura
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Este nó não possui conexões e pode ser excluído sem problemas.</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Loading State -->
+    <div class="loading-state" *ngIf="isLoading">
+      <mat-spinner diameter="40"></mat-spinner>
+      <span>Carregando informações...</span>
+    </div>
+
+    <!-- Error State -->
+    <mat-card class="error-card" *ngIf="error">
+      <mat-card-content>
+        <div class="error-content">
+          <span>{{ error }}</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </mat-dialog-content>
+
+  <!-- Footer -->
+  <mat-dialog-actions class="dialog-actions" *ngIf="deletionInfo && !isLoading">
+    <button mat-button (click)="onClose()">
+      Cancelar
+    </button>
+    
+    <button 
+      mat-raised-button
+      color="warn"
+      (click)="onConfirmDelete()"
+      [disabled]="isLoading"
+    >
+      <span *ngIf="deletionInfo.dependencies.length === 0">Excluir Nó</span>
+      <span *ngIf="deletionInfo.dependencies.length > 0">Excluir Nó e Conexões</span>
+    </button>
+  </mat-dialog-actions>
+</div>
+
+

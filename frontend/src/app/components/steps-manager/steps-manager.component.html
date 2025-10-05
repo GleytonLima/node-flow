@@ -1,0 +1,92 @@
+<div class="steps-manager-content">
+  <!-- Header -->
+  <div mat-dialog-title class="dialog-header">
+    <div class="header-content">
+      <h2>
+        Gerenciar Etapas - {{ node?.name }}
+      </h2>
+    </div>
+    <button 
+      mat-raised-button
+      color="primary"
+      (click)="onCreateStep()"
+    >
+      <mat-icon>add</mat-icon>
+      Nova Etapa
+    </button>
+  </div>
+
+  <!-- Content -->
+  <mat-dialog-content class="dialog-content">
+    <!-- Lista de Etapas -->
+    <div class="steps-container" *ngIf="hasSteps">
+      <mat-card 
+        *ngFor="let step of steps; trackBy: trackByStepId"
+        class="step-card"
+      >
+        <mat-card-header>
+          <mat-card-title class="step-name">
+            {{ step.name }}
+          </mat-card-title>
+          <mat-card-subtitle *ngIf="step.description">{{ step.description }}</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <div class="step-meta">
+            <mat-chip 
+              [color]="getStepTypeColor(step.type)"
+            >
+              {{ getStepTypeInfo(step.type).label }}
+            </mat-chip>
+            
+            <mat-chip 
+              *ngIf="getConnectionCount(step) > 0"
+              color="accent"
+            >
+              <mat-icon matChipAvatar>link</mat-icon>
+              {{ getConnectionCount(step) }} conexão(ões)
+            </mat-chip>
+          </div>
+        </mat-card-content>
+
+        <mat-card-actions class="step-actions">
+          <button 
+            mat-stroked-button
+            color="primary"
+            (click)="onEditStep(step)"
+          >
+            <mat-icon>edit</mat-icon>
+            Editar
+          </button>
+          <button 
+            mat-flat-button
+            color="warn"
+            (click)="onDeleteStep(step)"
+          >
+            <mat-icon>delete</mat-icon>
+            Excluir
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+    <!-- Estado vazio -->
+    <div class="empty-state" *ngIf="!hasSteps">
+      <mat-icon class="empty-icon">list</mat-icon>
+      <h3>Nenhuma etapa encontrada</h3>
+      <p>Este nó ainda não possui etapas.</p>
+      <button mat-raised-button color="primary" (click)="onCreateStep()">
+        <mat-icon>add</mat-icon>
+        Criar Primeira Etapa
+      </button>
+    </div>
+  </mat-dialog-content>
+
+  <!-- Footer -->
+  <mat-dialog-actions class="dialog-actions">
+    <button mat-button (click)="onClose()">
+      <mat-icon>close</mat-icon>
+      Fechar
+    </button>
+  </mat-dialog-actions>
+</div>

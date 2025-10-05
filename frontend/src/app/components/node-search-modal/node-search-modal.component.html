@@ -1,0 +1,76 @@
+<div class="modal-overlay" *ngIf="isVisible" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <!-- Header -->
+    <div class="modal-header">
+      <h2>{{ title }}</h2>
+      <button type="button" class="close-btn" (click)="closeModal()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Search -->
+    <div class="search-section">
+      <div class="search-input-container">
+        <input
+          type="text"
+          [(ngModel)]="searchQuery"
+          (input)="onSearchInput()"
+          placeholder="Buscar nós por nome, descrição ou workflow..."
+          class="search-input"
+          [disabled]="isSearching"
+        />
+        <div class="search-icon">
+          <svg *ngIf="!isSearching" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+          <div *ngIf="isSearching" class="loading-spinner"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div class="results-section">
+      <div class="results-header">
+        <span class="results-count">{{ searchResults.length }} nó(s) encontrado(s)</span>
+      </div>
+
+      <div class="results-list" *ngIf="hasResults">
+        <div
+          *ngFor="let node of searchResults"
+          class="result-item"
+          (click)="selectNode(node)"
+        >
+          <div class="node-icon">{{ getNodeTypeIcon(node) }}</div>
+          <div class="node-info">
+            <h4 class="node-name">{{ node.name }}</h4>
+            <p class="node-description">{{ node.description }}</p>
+            <div class="node-meta">
+              <span class="workflow-tags">
+                <span *ngFor="let workflow of node.workflows" class="workflow-tag">
+                  {{ workflow }}
+                </span>
+              </span>
+              <span class="step-count">{{ node.steps.length }} etapas</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="no-results" *ngIf="!hasResults && !isSearching">
+        <p>Nenhum nó encontrado</p>
+        <small *ngIf="searchQuery">Tente usar termos diferentes</small>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="modal-actions">
+      <button type="button" class="btn btn-secondary" (click)="closeModal()">
+        Cancelar
+      </button>
+    </div>
+  </div>
+</div>

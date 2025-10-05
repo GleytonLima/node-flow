@@ -1,0 +1,95 @@
+<div class="search-container">
+  <!-- Barra de Busca Principal -->
+  <div class="search-bar">
+    <div class="search-input-container">
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        (input)="onSearchInput()"
+        placeholder="Buscar nós por nome ou descrição..."
+        class="search-input"
+        [disabled]="isSearching"
+      />
+      <div class="search-icon">
+        <svg *ngIf="!isSearching" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <div *ngIf="isSearching" class="loading-spinner"></div>
+      </div>
+    </div>
+
+    <button
+      type="button"
+      class="btn btn-secondary filter-toggle"
+      (click)="toggleFilters()"
+      [class.active]="showFilters"
+    >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polygon points="22,3 2,3 10,12.46 10,19 14,21 14,12.46"></polygon>
+      </svg>
+      Filtros
+    </button>
+
+    <button
+      *ngIf="searchQuery || selectedWorkflow"
+      type="button"
+      class="btn btn-outline clear-btn"
+      (click)="clearSearch()"
+    >
+      Limpar
+    </button>
+  </div>
+
+  <!-- Filtros Avançados -->
+  <div class="filters-panel" [class.show]="showFilters">
+    <div class="filter-group">
+      <label for="workflow-filter">Workflow:</label>
+      <select
+        id="workflow-filter"
+        [(ngModel)]="selectedWorkflow"
+        (change)="onWorkflowChange()"
+        class="filter-select"
+      >
+        <option value="">Todos os workflows</option>
+        <option *ngFor="let workflow of workflows" [value]="workflow">
+          {{ getWorkflowDisplayName(workflow) }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Resultados da Busca -->
+  <div class="search-results" *ngIf="hasResults || (searchQuery && !isSearching)">
+    <div class="results-header">
+      <h3>Resultados da Busca</h3>
+      <span class="results-count">{{ results.length }} nó(s) encontrado(s)</span>
+    </div>
+
+    <div class="results-list" *ngIf="hasResults">
+      <div
+        *ngFor="let node of results"
+        class="result-item"
+        (click)="selectNode(node)"
+      >
+        <div class="result-content">
+          <h4 class="result-title">{{ node.name }}</h4>
+          <p class="result-description">{{ node.description }}</p>
+          <div class="result-meta">
+            <span class="workflow-tags">
+              <span *ngFor="let workflow of node.workflows" class="workflow-tag">
+                {{ workflow }}
+              </span>
+            </span>
+            <span class="step-count">{{ node.steps.length }} etapas</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="no-results" *ngIf="!hasResults && searchQuery && !isSearching">
+      <p>Nenhum nó encontrado para "{{ searchQuery }}"</p>
+      <small>Tente usar termos diferentes ou verificar a ortografia</small>
+    </div>
+  </div>
+</div>

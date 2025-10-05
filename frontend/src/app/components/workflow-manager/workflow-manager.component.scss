@@ -1,0 +1,183 @@
+.workflow-manager-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 24px 24px 16px 24px;
+  border-bottom: 1px solid #e0e0e0;
+  gap: 24px;
+
+  .header-content {
+    flex: 1;
+    
+    h2 {
+      margin: 0 0 16px 0;
+    }
+
+    .search-field {
+      width: 100%;
+      max-width: 400px;
+    }
+  }
+}
+
+.dialog-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 24px;
+}
+
+.error-card {
+  margin-bottom: 16px;
+  border-left: 4px solid #f44336;
+
+  .error-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  gap: 16px;
+}
+
+.workflows-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 16px;
+  padding: 16px 0;
+}
+
+.workflow-card {
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  mat-card-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 16px;
+    border-top: 1px solid #e0e0e0;
+    margin-top: 16px;
+
+    button {
+      min-width: 100px;
+    }
+  }
+}
+
+.workflow-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  .meta-item {
+  }
+}
+
+.empty-state-card {
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+
+    h3 {
+      margin: 0 0 8px 0;
+      font-size: 1.25rem;
+    }
+
+    p {
+      margin: 0 0 24px 0;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+  }
+}
+
+.workflow-editor-content {
+  max-width: 500px;
+  width: 100%;
+}
+
+.form-card {
+  margin-bottom: 16px;
+}
+
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.dialog-actions {
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 16px 24px 24px 24px;
+  border-top: 1px solid #e0e0e0;
+}
+
+// Responsividade
+@media (max-width: 768px) {
+  .dialog-header {
+    padding: 16px;
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+
+    .header-content {
+      .search-field {
+        max-width: none;
+      }
+    }
+  }
+
+  .dialog-content {
+    padding: 0 16px;
+  }
+
+  .workflows-container {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .workflow-card {
+    mat-card-actions {
+      flex-direction: column;
+      gap: 8px;
+
+      button {
+        width: 100%;
+        min-width: auto;
+      }
+    }
+  }
+
+  .dialog-actions {
+    padding: 16px;
+    flex-direction: column;
+    gap: 8px;
+
+    button {
+      width: 100%;
+    }
+  }
+}

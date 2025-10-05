@@ -1,0 +1,66 @@
+.deletion-confirmation-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.dialog-header {
+  h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #333;
+  }
+}
+
+.dialog-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 0;
+}
+
+.warning-content {
+  padding: 16px;
+  background: #fff3e0;
+  border-radius: 8px;
+  border-left: 4px solid #ff9800;
+
+  .warning-text {
+    p {
+      margin: 0 0 8px 0;
+      color: #333;
+      line-height: 1.4;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    .warning-message {
+      color: #e65100;
+      font-weight: 500;
+    }
+  }
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px;
+  border-top: 1px solid #e0e0e0;
+  margin-top: 16px;
+}
+
+// Responsividade
+@media (max-width: 768px) {
+  .dialog-actions {
+    flex-direction: column;
+    gap: 8px;
+
+    button {
+      width: 100%;
+    }
+  }
+}

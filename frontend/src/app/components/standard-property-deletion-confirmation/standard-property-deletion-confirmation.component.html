@@ -1,0 +1,32 @@
+<div class="deletion-confirmation-content">
+  <!-- Header -->
+  <div mat-dialog-title class="dialog-header">
+    <h2>
+      Confirmar Exclusão
+    </h2>
+  </div>
+
+  <!-- Content -->
+  <mat-dialog-content class="dialog-content">
+    <div class="warning-content">
+      <div class="warning-text">
+        <p>Tem certeza que deseja excluir a propriedade padrão <strong>"{{ property.name }}"</strong>?</p>
+        <p class="warning-message">Esta ação não pode ser desfeita.</p>
+      </div>
+    </div>
+  </mat-dialog-content>
+
+  <!-- Footer -->
+  <mat-dialog-actions class="dialog-actions">
+    <button mat-button (click)="onCancel()">
+      Cancelar
+    </button>
+    <button
+      mat-raised-button
+      color="warn"
+      (click)="onConfirm()"
+    >
+      Excluir
+    </button>
+  </mat-dialog-actions>
+</div>

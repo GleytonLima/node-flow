@@ -1,0 +1,120 @@
+.horizontal-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+}
+
+.filters-card {
+  .filters-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 8px 0;
+  }
+
+  .inputs-row {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .actions-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .search-field {
+    min-width: 250px;
+    flex: 1;
+    max-width: 400px;
+  }
+
+  .workflow-field {
+    min-width: 180px;
+  }
+
+  .property-field {
+    min-width: 200px;
+  }
+
+  .property-value-field {
+    min-width: 180px;
+  }
+}
+
+.active-filters-card {
+  .active-filters-indicator {
+    .indicator-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+
+      .indicator-text {
+        font-size: 14px;
+        color: #666;
+        font-weight: 500;
+      }
+
+      mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+        color: #666;
+      }
+    }
+
+    .active-filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-chip {
+      mat-icon {
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+}
+
+// Responsividade
+@media (max-width: 768px) {
+  .horizontal-filters {
+    padding: 12px;
+  }
+
+  .filters-card {
+    .filters-container {
+      gap: 12px;
+    }
+
+    .inputs-row {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 12px;
+    }
+
+    .actions-row {
+      justify-content: stretch;
+
+      button {
+        flex: 1;
+        justify-content: center;
+      }
+    }
+
+    .search-field,
+    .workflow-field,
+    .property-field,
+    .property-value-field {
+      width: 100%;
+      max-width: none;
+    }
+  }
+}

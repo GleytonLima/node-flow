@@ -1,0 +1,86 @@
+<div class="vis-canvas-container">
+  <!-- Vis.js Network Container -->
+  <div #networkContainer class="network-container"></div>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" *ngIf="loading">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Carregando...</p>
+  </div>
+
+  <!-- Canvas Controls Bar -->
+  <div class="canvas-controls">
+    <div class="controls-section">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="createNewNode()"
+        [disabled]="loading"
+        class="control-button"
+      >
+        <mat-icon>add</mat-icon>
+        Novo Nó
+      </button>
+    </div>
+
+    <div class="controls-section">
+      <button
+        mat-icon-button
+        (click)="zoomToFit()"
+        matTooltip="Ajustar vista para mostrar todos os nós"
+        class="control-button"
+      >
+        <mat-icon>center_focus_strong</mat-icon>
+      </button>
+
+      <button
+        mat-icon-button
+        (click)="reapplyLayout()"
+        matTooltip="Reaplicar layout hierárquico"
+        class="control-button"
+      >
+        <mat-icon>account_tree</mat-icon>
+      </button>
+
+      <button
+        mat-icon-button
+        color="warn"
+        (click)="clearFilter()"
+        matTooltip="Mostrar todos os nós"
+        *ngIf="hasActiveFilter()"
+        class="control-button"
+      >
+        <mat-icon>filter_list_off</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- Info Panel -->
+  <mat-card class="info-panel" *ngIf="selectedNodeInfo">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>info</mat-icon>
+        {{ selectedNodeInfo.name }}
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{ selectedNodeInfo.description }}</p>
+      <div class="node-stats">
+        <mat-chip color="primary">
+          <mat-icon matChipAvatar>list</mat-icon>
+          {{ selectedNodeInfo.steps.length }} etapas
+        </mat-chip>
+        <mat-chip color="accent">
+          <mat-icon matChipAvatar>account_tree</mat-icon>
+          {{ selectedNodeInfo.workflows.length }} workflows
+        </mat-chip>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button (click)="selectedNodeInfo = null">
+        <mat-icon>close</mat-icon>
+        Fechar
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

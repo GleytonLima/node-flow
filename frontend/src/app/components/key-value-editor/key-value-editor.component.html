@@ -1,0 +1,90 @@
+<div class="key-value-editor">
+  <!-- Header -->
+  <div class="editor-header">
+    <button 
+      mat-raised-button
+      color="primary"
+      type="button"
+      (click)="addPair()"
+      matTooltip="Adicionar nova propriedade"
+    >
+      Adicionar Propriedade
+    </button>
+  </div>
+
+  <!-- Lista de Pares -->
+  <div class="pairs-list" *ngIf="keyValuePairs.length > 0">
+    <mat-card 
+      *ngFor="let pair of keyValuePairs; let i = index" 
+      class="pair-card"
+    >
+      <mat-card-content>
+        <div class="pair-form">
+          <div class="form-fields">
+            <mat-form-field appearance="outline" class="key-field">
+              <mat-label>Chave</mat-label>
+              <input
+                matInput
+                type="text"
+                [value]="pair.key"
+                (input)="onKeyInput(i, $event)"
+                placeholder="Nome da propriedade"
+              />
+              <mat-icon matSuffix>vpn_key</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="value-field">
+              <mat-label>Valor</mat-label>
+              <textarea
+                matInput
+                [value]="pair.value"
+                (input)="onValueInput(i, $event)"
+                placeholder="Valor da propriedade"
+                rows="2"
+              ></textarea>
+              <mat-icon matSuffix>{{ getValueTypeIcon(pair.value) }}</mat-icon>
+              <mat-hint align="end">
+                <mat-chip 
+                  class="type-chip"
+                  [class.json-chip]="isJsonValue(pair.value)"
+                  [class.string-chip]="!isJsonValue(pair.value)"
+                >
+                  {{ getValueType(pair.value) }}
+                </mat-chip>
+              </mat-hint>
+            </mat-form-field>
+          </div>
+
+          <button
+            mat-icon-button
+            type="button"
+            color="warn"
+            (click)="removePair(i)"
+            matTooltip="Remover propriedade"
+            class="remove-btn"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Estado Vazio -->
+  <mat-card class="empty-state-card" *ngIf="keyValuePairs.length === 0">
+    <mat-card-content>
+      <div class="empty-state">
+        <mat-icon class="empty-icon">settings</mat-icon>
+        <p>Nenhuma propriedade customizada definida.</p>
+        <button 
+          mat-stroked-button
+          type="button"
+          (click)="addPair()"
+          matTooltip="Adicionar primeira propriedade"
+        >
+          Adicionar Primeira Propriedade
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

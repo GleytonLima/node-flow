@@ -1,0 +1,31 @@
+{
+  "version": "1.0",
+  "properties": [
+    {
+      "key": "environment",
+      "type": "select",
+      "options": ["dev", "staging", "prod"],
+      "required": true,
+      "default": "dev"
+    },
+    {
+      "key": "priority",
+      "type": "select",
+      "options": ["low", "medium", "high", "critical"],
+      "required": false,
+      "default": "medium"
+    },
+    {
+      "key": "owner",
+      "type": "text",
+      "required": false,
+      "default": ""
+    },
+    {
+      "key": "description",
+      "type": "textarea",
+      "required": false,
+      "default": ""
+    }
+  ]
+}

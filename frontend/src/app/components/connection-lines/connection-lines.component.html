@@ -1,0 +1,48 @@
+<svg #svg class="connection-lines-svg" [style.transform]="'translate(' + panX + 'px, ' + panY + 'px) scale(' + zoom + ')'">
+  <!-- Arrow Markers -->
+  <defs>
+    <marker
+      *ngFor="let type of ['start', 'end', 'decision', 'parallel', 'process']"
+      [id]="getArrowMarkerId(type)"
+      markerWidth="10"
+      markerHeight="10"
+      refX="9"
+      refY="3"
+      orient="auto"
+      markerUnits="strokeWidth"
+    >
+      <path d="M0,0 L0,6 L9,3 z" [attr.fill]="getLineColor(type)"></path>
+    </marker>
+  </defs>
+
+  <!-- Connection Lines -->
+  <g class="connection-lines">
+    <g
+      *ngFor="let line of connectionLines; let i = index"
+      class="connection-line"
+      [attr.data-type]="line.type"
+    >
+      <!-- Main Line -->
+      <path
+        [attr.d]="getPathD(line)"
+        [style]="getLineStyle(line)"
+        stroke-width="2"
+        fill="none"
+        [attr.marker-end]="'url(#' + getArrowMarkerId(line.type) + ')'"
+        class="line-path"
+      />
+      
+      <!-- Condition Label (for decision steps) -->
+      <text
+        *ngIf="line.condition && line.type === 'decision'"
+        [attr.x]="(line.from.x + line.to.x) / 2"
+        [attr.y]="(line.from.y + line.to.y) / 2 - 5"
+        class="condition-label"
+        text-anchor="middle"
+        dominant-baseline="middle"
+      >
+        {{ line.condition }}
+      </text>
+    </g>
+  </g>
+</svg>

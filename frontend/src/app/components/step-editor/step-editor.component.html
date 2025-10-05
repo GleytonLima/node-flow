@@ -1,0 +1,251 @@
+<div class="step-editor-content">
+  <!-- Header -->
+  <div mat-dialog-title class="dialog-header">
+    <div class="header-content">
+      <h2>
+        {{ isEditMode ? 'Editar Etapa' : 'Nova Etapa' }}
+      </h2>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <mat-dialog-content class="dialog-content">
+    <form (ngSubmit)="onSave()" #stepForm="ngForm">
+      <mat-tab-group>
+        <!-- Informações Básicas -->
+        <mat-tab label="Informações">
+          <div class="tab-content">
+            <mat-card class="form-card">
+              <mat-card-header>
+                <mat-card-title>
+                  Informações Básicas
+                </mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="form-fields">
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Nome da Etapa</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      name="stepName"
+                      [(ngModel)]="editedStep.name"
+                      required
+                      maxlength="100"
+                      placeholder="Digite o nome da etapa"
+                    />
+                    <mat-hint align="end">{{ editedStep.name.length || 0 }}/100</mat-hint>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Descrição</mat-label>
+                    <textarea
+                      matInput
+                      name="stepDescription"
+                      [(ngModel)]="editedStep.description"
+                      rows="3"
+                      maxlength="500"
+                      placeholder="Descreva a etapa"
+                    ></textarea>
+                    <mat-hint align="end">{{ editedStep.description.length || 0 }}/500</mat-hint>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Tipo da Etapa</mat-label>
+                    <mat-select
+                      name="stepType"
+                      [(ngModel)]="editedStep.type"
+                      (selectionChange)="onStepTypeChange()"
+                      required
+                    >
+                      <mat-option *ngFor="let type of stepTypes" [value]="type.value">
+                        <div class="step-type-option">
+                          <span class="type-label">{{ type.label }}</span>
+                          <span class="type-description">{{ type.description }}</span>
+                        </div>
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <!-- Campo para associar etapa condicional a uma decisão -->
+                  <mat-form-field 
+                    appearance="outline" 
+                    class="full-width"
+                    *ngIf="editedStep.type === 'conditional'"
+                  >
+                    <mat-label>Etapa de Decisão Associada</mat-label>
+                    <mat-select
+                      name="decisionStepId"
+                      [(ngModel)]="editedStep.decisionStepId"
+                      placeholder="Selecione a etapa de decisão"
+                    >
+                      <mat-option *ngFor="let step of getDecisionSteps()" [value]="step.id">
+                        {{ step.name }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-hint>Etapa condicional deve estar associada a uma etapa de decisão</mat-hint>
+                    <div *ngIf="editedStep.decisionStepId" class="decision-info">
+                      <mat-icon>info</mat-icon>
+                      <span>Associada à decisão: {{ getDecisionStepName(editedStep.decisionStepId) }}</span>
+                    </div>
+                  </mat-form-field>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </mat-tab>
+
+        <!-- Conexões -->
+        <mat-tab label="Conexões">
+          <div class="tab-content">
+            <mat-card class="form-card">
+              <mat-card-header>
+                <mat-card-title>
+                  Conexões
+                </mat-card-title>
+                <mat-card-subtitle>
+                  {{ getStepTypeInfo(editedStep.type).description }}
+                </mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="connections-list">
+                  <mat-card 
+                    *ngFor="let connection of editedStep.connections; let i = index"
+                    class="connection-card"
+                  >
+                    <mat-card-content>
+                      <div class="connection-form">
+                        <div class="connection-fields">
+                          <!-- Nó de Destino -->
+                          <div class="node-destination-field">
+                            <mat-label>Nó de Destino</mat-label>
+                            <div *ngIf="connection.targetNodeId; else noNodeSelected" class="selected-node-card">
+                              <div class="node-info">
+                                <mat-icon class="node-icon">account_tree</mat-icon>
+                                <div class="node-details">
+                                  <span class="node-name">{{ getNodeName(connection.targetNodeId) }}</span>
+                                  <span class="node-description" *ngIf="getNodeDescription(connection.targetNodeId)">{{ getNodeDescription(connection.targetNodeId) }}</span>
+                                  <span class="node-id">{{ connection.targetNodeId }}</span>
+                                </div>
+                              </div>
+                              <button
+                                mat-icon-button
+                                color="primary"
+                                type="button"
+                                (click)="openNodeSearch(i)"
+                                matTooltip="Alterar nó"
+                              >
+                                <mat-icon>edit</mat-icon>
+                              </button>
+                            </div>
+                            <ng-template #noNodeSelected>
+                              <div class="no-node-selected">
+                                <button
+                                  mat-stroked-button
+                                  color="primary"
+                                  type="button"
+                                  (click)="openNodeSearch(i)"
+                                  class="select-node-btn"
+                                >
+                                  <mat-icon>add</mat-icon>
+                                  Selecionar Nó
+                                </button>
+                              </div>
+                            </ng-template>
+                          </div>
+
+                        </div>
+
+                        <!-- Botão de Remover -->
+                        <button
+                          mat-icon-button
+                          color="warn"
+                          type="button"
+                          (click)="removeConnection(i)"
+                          matTooltip="Remover conexão"
+                          class="remove-connection-btn"
+                        >
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </div>
+                    </mat-card-content>
+                  </mat-card>
+
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    type="button"
+                    (click)="addConnection()"
+                    class="add-connection-btn"
+                  >
+                    <mat-icon>add</mat-icon>
+                    Adicionar Conexão
+                  </button>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </mat-tab>
+
+        <!-- Propriedades -->
+        <mat-tab label="Propriedades">
+          <div class="tab-content">
+            <mat-card class="form-card">
+              <mat-card-header>
+                <mat-card-title>
+                  Propriedades
+                </mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <app-key-value-editor
+                  [properties]="editedStep.properties"
+                  (propertiesChange)="editedStep.properties = $event"
+                ></app-key-value-editor>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </form>
+  </mat-dialog-content>
+
+  <!-- Footer -->
+  <mat-dialog-actions class="dialog-actions">
+    <div class="footer-left">
+      <button
+        mat-button
+        color="warn"
+        (click)="onDelete()"
+        *ngIf="isEditMode"
+      >
+        Excluir
+      </button>
+    </div>
+    
+    <div class="footer-right">
+      <button
+        mat-button
+        (click)="onClose()"
+      >
+        Cancelar
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="onSave()"
+        [disabled]="!editedStep.name.trim()"
+      >
+        {{ isEditMode ? 'Salvar Alterações' : 'Criar Etapa' }}
+      </button>
+    </div>
+  </mat-dialog-actions>
+</div>
+
+<!-- Node Search Modal - Outside main modal -->
+<app-node-search-modal
+  [isVisible]="showNodeSearch"
+  [excludeNodeId]="node?.id || null"
+  [title]="'Selecionar Nó de Destino'"
+  (close)="closeNodeSearch()"
+  (select)="onNodeSelected($event)"
+></app-node-search-modal>

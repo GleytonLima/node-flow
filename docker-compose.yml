@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  node-flow-frontend:
+    build: ./frontend
+    ports:
+      - "4200:80"
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - node-flow-backend
+
+  node-flow-backend:
+    build: ./backend
+    ports:
+      - "5200:5200"
+    volumes:
+      - ./backend:/app
+      - ./data:/app/data
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - PORT=5200
+    depends_on:
+      node-flow-data-init:
+        condition: service_completed_successfully
+
+  node-flow-data-init:
+    image: alpine:latest
+    volumes:
+      - ./data:/data
+    command: |
+      sh -c "
+        echo 'Inicializando estrutura de dados do NodeFlow...' &&
+        touch /data/nodes/nodes.json &&
+        touch /data/properties/standard-properties.json &&
+        touch /data/workflows/workflows.json &&
+        touch /data/config/app-config.json &&
+        echo 'Estrutura de dados do NodeFlow inicializada!'
+      "
+
+volumes:
+  node_modules_frontend:
+  node_modules_backend:

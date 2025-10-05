@@ -1,0 +1,219 @@
+<div class="advanced-search-container">
+  <!-- Header -->
+  <mat-card class="search-header-card">
+    <mat-card-content>
+      <div class="search-header">
+        <h2>
+          <mat-icon>search</mat-icon>
+          Busca Avançada
+        </h2>
+        <p class="search-description">
+          Busque por nós, etapas e propriedades. Use filtros para refinar os resultados.
+        </p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Formulário de Busca -->
+  <mat-card class="search-form-card">
+    <mat-card-content>
+      <div class="search-form">
+        <!-- Campo de Busca com Autocomplete -->
+        <div class="search-input-group">
+          <mat-form-field appearance="outline" class="search-field">
+            <mat-label>Digite sua busca...</mat-label>
+            <input
+              matInput
+              type="text"
+              [(ngModel)]="searchQuery"
+              (input)="onSearchInput()"
+              (keyup.enter)="onSearchSubmit()"
+              placeholder="Digite sua busca..."
+            />
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+          
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="onSearchSubmit()"
+            [disabled]="!searchQuery.trim() || isLoading"
+            class="search-button"
+          >
+            <mat-icon *ngIf="!isLoading">search</mat-icon>
+            <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+            {{ isLoading ? 'Buscando...' : 'Buscar' }}
+          </button>
+        </div>
+
+        <!-- Sugestões -->
+        <mat-card class="suggestions-card" *ngIf="showSuggestions && searchSuggestions.length > 0">
+          <mat-card-content>
+            <div class="suggestions-header">
+              <mat-icon>lightbulb</mat-icon>
+              <span>Sugestões</span>
+            </div>
+            <div class="suggestions-list">
+              <mat-chip
+                *ngFor="let suggestion of searchSuggestions"
+                class="suggestion-chip"
+                (click)="selectSuggestion(suggestion)"
+                matTooltip="Clique para usar esta sugestão"
+              >
+                {{ suggestion }}
+              </mat-chip>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Filtros -->
+        <div class="search-filters">
+          <div class="filters-row">
+            <mat-form-field appearance="outline" class="filter-field">
+              <mat-label>Workflow</mat-label>
+              <mat-select [(ngModel)]="selectedWorkflow">
+                <mat-option value="">Todos os workflows</mat-option>
+                <mat-option *ngFor="let workflow of availableWorkflows" [value]="workflow">
+                  {{ workflow }}
+                </mat-option>
+              </mat-select>
+              <mat-icon matSuffix>account_tree</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="filter-field">
+              <mat-label>Tipo de Etapa</mat-label>
+              <mat-select [(ngModel)]="selectedType">
+                <mat-option value="">Todos os tipos</mat-option>
+                <mat-option *ngFor="let type of availableTypes" [value]="type">
+                  {{ getStepTypeLabel(type) }}
+                </mat-option>
+              </mat-select>
+              <mat-icon matSuffix>category</mat-icon>
+            </mat-form-field>
+
+            <div class="checkbox-field">
+              <mat-checkbox [(ngModel)]="includeProperties">
+                Incluir propriedades na busca
+              </mat-checkbox>
+            </div>
+          </div>
+
+          <div class="filter-actions">
+            <button
+              mat-stroked-button
+              (click)="clearFilters()"
+              matTooltip="Limpar todos os filtros"
+            >
+              <mat-icon>clear</mat-icon>
+              Limpar Filtros
+            </button>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Resultados -->
+  <mat-card class="search-results-card" *ngIf="showResults">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>search</mat-icon>
+        Resultados da Busca
+      </mat-card-title>
+      <mat-card-subtitle *ngIf="!isLoading">
+        {{ searchResults.length }} resultado(s) encontrado(s)
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <!-- Loading -->
+      <div class="loading-container" *ngIf="isLoading">
+        <mat-spinner diameter="40"></mat-spinner>
+        <span>Buscando...</span>
+      </div>
+
+      <!-- Lista de Resultados -->
+      <div class="results-list" *ngIf="!isLoading && searchResults.length > 0">
+        <mat-card 
+          *ngFor="let result of searchResults" 
+          class="result-card"
+        >
+          <mat-card-header>
+            <div class="result-type-badge" [class]="'type-' + result.type">
+              <mat-icon>{{ result.type === 'node' ? 'account_tree' : 'list' }}</mat-icon>
+              {{ result.type === 'node' ? 'Nó' : 'Etapa' }}
+            </div>
+            <mat-card-title class="result-title">{{ result.name }}</mat-card-title>
+            <mat-card-subtitle *ngIf="result.workflows && result.workflows.length > 0">
+              <div class="result-workflows">
+                <mat-chip 
+                  *ngFor="let workflow of result.workflows" 
+                  color="primary"
+                  class="workflow-chip"
+                >
+                  {{ workflow }}
+                </mat-chip>
+              </div>
+            </mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content *ngIf="result.description">
+            <p class="result-description">{{ result.description }}</p>
+          </mat-card-content>
+
+          <!-- Etapas correspondentes (para nós) -->
+          <mat-card-content *ngIf="result.type === 'node' && result.steps && result.steps.length > 0">
+            <div class="result-steps">
+              <h5>
+                <mat-icon>list</mat-icon>
+                Etapas correspondentes:
+              </h5>
+              <div class="steps-list">
+                <mat-chip
+                  *ngFor="let step of result.steps"
+                  class="step-chip"
+                  [class]="'step-type-' + step.stepType"
+                >
+                  <mat-icon matChipAvatar>{{ getStepTypeIcon(step.stepType) }}</mat-icon>
+                  {{ step.name }}
+                </mat-chip>
+              </div>
+            </div>
+          </mat-card-content>
+
+          <mat-card-content>
+            <div class="result-meta">
+              <div class="meta-item">
+                <mat-icon>fingerprint</mat-icon>
+                <span>ID: {{ result.id }}</span>
+              </div>
+              <div class="meta-item" *ngIf="result.nodeName">
+                <mat-icon>account_tree</mat-icon>
+                <span>Nó: {{ result.nodeName }}</span>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Estado Vazio -->
+      <div class="no-results" *ngIf="!isLoading && searchResults.length === 0">
+        <mat-icon class="no-results-icon">search_off</mat-icon>
+        <h4>Nenhum resultado encontrado</h4>
+        <p>Tente ajustar sua busca ou filtros para encontrar o que procura.</p>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions *ngIf="!isLoading">
+      <button
+        mat-button
+        (click)="clearSearch()"
+        matTooltip="Limpar busca e resultados"
+      >
+        <mat-icon>clear</mat-icon>
+        Limpar Busca
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+

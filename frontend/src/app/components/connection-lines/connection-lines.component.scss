@@ -1,0 +1,56 @@
+.connection-lines-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  transform-origin: 0 0;
+}
+
+.connection-lines {
+  .connection-line {
+    .line-path {
+      transition: all 0.2s ease;
+      cursor: pointer;
+
+      &:hover {
+        stroke-width: 3;
+        filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.3));
+      }
+    }
+
+    .condition-label {
+      font-size: 12px;
+      font-weight: 500;
+      fill: #333;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 2px 6px;
+      border-radius: 4px;
+      pointer-events: none;
+    }
+  }
+}
+
+// Cores específicas para cada tipo de conexão
+.connection-line[data-type="start"] .line-path {
+  stroke: #28a745;
+}
+
+.connection-line[data-type="end"] .line-path {
+  stroke: #dc3545;
+}
+
+.connection-line[data-type="decision"] .line-path {
+  stroke: #ffc107;
+  stroke-dasharray: 5,5;
+}
+
+.connection-line[data-type="parallel"] .line-path {
+  stroke: #6f42c1;
+}
+
+.connection-line[data-type="process"] .line-path {
+  stroke: #007bff;
+}

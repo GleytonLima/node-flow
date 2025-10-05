@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2025-01-03T10:00:00.000Z" agent="Resources Manager Export" version="24.7.17" etag="export-1735905600000">
+  <diagram name="Resources Manager Export" id="export-1735905600000">
+    <mxGraphModel dx="1422" dy="754" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Nó: Projeto A -->
+        <mxCell id="node_ff228857-e2a9-4071-82a2-cce08f7dac51" value="&lt;b&gt;Projeto A&lt;/b&gt;&lt;br/&gt;Descrição do novo nó&lt;br/&gt;&lt;i&gt;Workflows: 44e2f760-2655-4058-8f21-89ee603eb830, default&lt;/i&gt;&lt;br/&gt;&lt;i&gt;Etapas: 2&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="50" y="50" width="200" height="100" as="geometry" />
+        </mxCell>
+        
+        <!-- Etapa: Início do Projeto A -->
+        <mxCell id="step_bd05b3cb-cbcb-4beb-bf52-c1fffc63f5b0" value="&lt;b&gt;Início do Projeto A&lt;/b&gt;&lt;br/&gt;&lt;i&gt;Processo&lt;/i&gt;&lt;br/&gt;Primeira etapa do Projeto A - início do processo&lt;br/&gt;&lt;i&gt;Conexões: 0&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="100" y="200" width="150" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Etapa: Verificar Aprovação -->
+        <mxCell id="step_00506806-9fbd-4ecd-8845-c56d9cf8b2ed" value="&lt;b&gt;Verificar Aprovação&lt;/b&gt;&lt;br/&gt;&lt;i&gt;Decisão&lt;/i&gt;&lt;br/&gt;Etapa de decisão para verificar se o projeto foi aprovado pelo cliente&lt;br/&gt;&lt;i&gt;Conexões: 1&lt;/i&gt;" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="100" y="300" width="150" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Nó: Projeto B -->
+        <mxCell id="node_57348a5f-e013-4ad6-92f1-7dc8b71d4126" value="&lt;b&gt;Projeto B&lt;/b&gt;&lt;br/&gt;Segundo projeto do sistema&lt;br/&gt;&lt;i&gt;Workflows: default&lt;/i&gt;&lt;br/&gt;&lt;i&gt;Etapas: 1&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="50" y="500" width="200" height="100" as="geometry" />
+        </mxCell>
+        
+        <!-- Etapa: Processamento do Projeto B -->
+        <mxCell id="step_12345678-1234-1234-1234-123456789abc" value="&lt;b&gt;Processamento do Projeto B&lt;/b&gt;&lt;br/&gt;&lt;i&gt;Processo&lt;/i&gt;&lt;br/&gt;Etapa de processamento do segundo projeto&lt;br/&gt;&lt;i&gt;Conexões: 0&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="100" y="650" width="150" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Conexão: Nó A para primeira etapa -->
+        <mxCell id="conn_node_to_first_step" value="Início" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;" edge="1" parent="1" source="node_ff228857-e2a9-4071-82a2-cce08f7dac51" target="step_bd05b3cb-cbcb-4beb-bf52-c1fffc63f5b0">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Conexão: Etapa de decisão para Projeto B -->
+        <mxCell id="conn_decision_to_project_b" value="Se projeto foi rejeitado pelo cliente" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;" edge="1" parent="1" source="step_00506806-9fbd-4ecd-8845-c56d9cf8b2ed" target="node_57348a5f-e013-4ad6-92f1-7dc8b71d4126">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Conexão: Nó B para sua etapa -->
+        <mxCell id="conn_node_b_to_step" value="Início" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;" edge="1" parent="1" source="node_57348a5f-e013-4ad6-92f1-7dc8b71d4126" target="step_12345678-1234-1234-1234-123456789abc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

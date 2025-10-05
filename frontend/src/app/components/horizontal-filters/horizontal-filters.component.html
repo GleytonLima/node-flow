@@ -1,0 +1,133 @@
+<div class="horizontal-filters">
+  <mat-card class="filters-card">
+    <mat-card-content>
+      <div class="filters-container">
+        <!-- Primeira linha: Inputs -->
+        <div class="inputs-row">
+          <!-- Campo de Busca -->
+          <mat-form-field appearance="outline" class="search-field">
+            <mat-label>Buscar</mat-label>
+            <input
+              matInput
+              type="text"
+              [(ngModel)]="searchQuery"
+              (input)="onInputChange()"
+              placeholder="Digite para buscar nós, etapas, propriedades..."
+            />
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+
+          <!-- Filtro por Workflow -->
+          <mat-form-field appearance="outline" class="workflow-field">
+            <mat-label>Workflow</mat-label>
+            <mat-select
+              [(ngModel)]="selectedWorkflow"
+              (selectionChange)="onInputChange()"
+            >
+              <mat-option value="">Todos os workflows</mat-option>
+              <mat-option 
+                *ngFor="let workflow of availableWorkflows" 
+                [value]="workflow.id"
+              >
+                {{ workflow.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <!-- Filtro por Propriedade Padrão -->
+          <mat-form-field appearance="outline" class="property-field">
+            <mat-label>Propriedade Padrão</mat-label>
+            <mat-select
+              [(ngModel)]="selectedStandardProperty"
+              (selectionChange)="onPropertyChange()"
+            >
+              <mat-option value="">Todas as propriedades</mat-option>
+              <mat-option 
+                *ngFor="let property of availableStandardProperties" 
+                [value]="property.name"
+              >
+                {{ property.name }} ({{ getPropertyTypeLabel(property.type) }})
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <!-- Campo de Valor da Propriedade -->
+          <mat-form-field appearance="outline" class="property-value-field" *ngIf="selectedStandardProperty">
+            <mat-label>Valor da {{ getSelectedPropertyName() }}</mat-label>
+            <input
+              matInput
+              type="text"
+              [(ngModel)]="propertyValue"
+              (input)="onInputChange()"
+              [placeholder]="getPropertyValuePlaceholder()"
+            />
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <!-- Segunda linha: Botões -->
+        <div class="actions-row">
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="onSearch()"
+            [disabled]="isLoading"
+            matTooltip="Executar busca"
+          >
+            <mat-icon *ngIf="!isLoading">search</mat-icon>
+            <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+            {{ isLoading ? 'Buscando...' : 'Buscar' }}
+          </button>
+          
+          <button
+            mat-stroked-button
+            (click)="clearFilters()"
+            [disabled]="!hasActiveFilters"
+            matTooltip="Limpar todos os filtros"
+          >
+            <mat-icon>clear</mat-icon>
+            Limpar
+          </button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Indicador de Filtros Ativos -->
+  <mat-card class="active-filters-card" *ngIf="hasActiveFilters">
+    <mat-card-content>
+      <div class="active-filters-indicator">
+        <div class="indicator-header">
+          <mat-icon>filter_list</mat-icon>
+          <span class="indicator-text">Filtros ativos</span>
+        </div>
+        <div class="active-filters">
+          <mat-chip 
+            *ngIf="searchQuery.trim()" 
+            color="primary"
+            class="filter-chip"
+          >
+            <mat-icon matChipAvatar>search</mat-icon>
+            "{{ searchQuery }}"
+          </mat-chip>
+          <mat-chip 
+            *ngIf="selectedWorkflow" 
+            color="accent"
+            class="filter-chip"
+          >
+            <mat-icon matChipAvatar>account_tree</mat-icon>
+            {{ getWorkflowName(selectedWorkflow) }}
+          </mat-chip>
+          <mat-chip 
+            *ngIf="selectedStandardProperty && propertyValue" 
+            color="warn"
+            class="filter-chip"
+          >
+            <mat-icon matChipAvatar>settings</mat-icon>
+            {{ getSelectedPropertyName() }}: "{{ propertyValue }}"
+          </mat-chip>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

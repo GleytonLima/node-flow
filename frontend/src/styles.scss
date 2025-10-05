@@ -1,0 +1,137 @@
+/* You can add global styles to this file, and also import other style files */
+
+@use '@angular/material' as mat;
+
+// Define custom palettes for Resources Manager
+$resources-primary: mat.define-palette(mat.$blue-palette, 600, 400, 800);
+$resources-accent: mat.define-palette(mat.$teal-palette, 500, 300, 700);
+$resources-warn: mat.define-palette(mat.$red-palette, 500, 300, 700);
+
+// Define custom typography
+$resources-typography: mat.define-typography-config(
+  $font-family: 'Roboto, "Helvetica Neue", sans-serif',
+  $headline-1: mat.define-typography-level(32px, 48px, 400, $letter-spacing: -0.5px),
+  $headline-2: mat.define-typography-level(28px, 40px, 400, $letter-spacing: -0.5px),
+  $headline-3: mat.define-typography-level(24px, 32px, 400, $letter-spacing: 0),
+  $headline-4: mat.define-typography-level(20px, 28px, 500, $letter-spacing: 0.25px),
+  $headline-5: mat.define-typography-level(18px, 24px, 500, $letter-spacing: 0),
+  $headline-6: mat.define-typography-level(16px, 20px, 500, $letter-spacing: 0.15px),
+  $subtitle-1: mat.define-typography-level(16px, 24px, 400, $letter-spacing: 0.15px),
+  $subtitle-2: mat.define-typography-level(14px, 20px, 500, $letter-spacing: 0.1px),
+  $body-1: mat.define-typography-level(16px, 24px, 400, $letter-spacing: 0.5px),
+  $body-2: mat.define-typography-level(14px, 20px, 400, $letter-spacing: 0.25px),
+  $caption: mat.define-typography-level(12px, 16px, 400, $letter-spacing: 0.4px),
+  $button: mat.define-typography-level(14px, 20px, 500, $letter-spacing: 1.25px),
+);
+
+// Create the light theme
+$resources-light-theme: mat.define-light-theme((
+  color: (
+    primary: $resources-primary,
+    accent: $resources-accent,
+    warn: $resources-warn,
+  ),
+  typography: $resources-typography,
+  density: 0,
+));
+
+// Create the dark theme
+$resources-dark-theme: mat.define-dark-theme((
+  color: (
+    primary: $resources-primary,
+    accent: $resources-accent,
+    warn: $resources-warn,
+  ),
+  typography: $resources-typography,
+  density: 0,
+));
+
+// Include theme styles for core and each component used in your app
+@include mat.core();
+
+// Apply the light theme by default
+@include mat.all-component-themes($resources-light-theme);
+
+// Dark theme class
+.dark-theme {
+  @include mat.all-component-colors($resources-dark-theme);
+}
+
+// Angular Material handles all theming automatically
+// No need for custom CSS properties - Material Design system provides everything
+
+// Global styles - Angular Material handles theming automatically
+html, body { 
+  height: 100%; 
+  margin: 0; 
+  font-family: Roboto, "Helvetica Neue", sans-serif; 
+}
+
+// App layout styles
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.app-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.main-content {
+  flex: 1;
+  overflow: hidden;
+}
+
+// Reset global styles
+* {
+  box-sizing: border-box;
+}
+
+// Custom scrollbar styles - Angular Material handles theming
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.dark-theme ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.dark-theme ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+// Modal styles removed - using Angular Material MatDialog instead
+
+// Responsividade - Angular Material handles most responsive behavior
+@media (max-width: 768px) {
+  .app-body {
+    position: relative;
+  }
+}
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

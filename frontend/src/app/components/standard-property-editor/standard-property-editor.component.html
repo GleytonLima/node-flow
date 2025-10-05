@@ -1,0 +1,158 @@
+<div class="standard-property-editor">
+  <!-- Header com seletor de propriedades -->
+  <div class="editor-header">
+    <div class="property-selector" *ngIf="getAvailableProperties().length > 0">
+      <mat-form-field appearance="outline" class="property-select-field">
+        <mat-label>Adicionar Propriedade Padrão</mat-label>
+        <mat-select
+          [(ngModel)]="selectedPropertyToAdd"
+          placeholder="Selecione uma propriedade"
+        >
+          <mat-option 
+            *ngFor="let prop of getAvailableProperties()" 
+            [value]="prop.name"
+          >
+            {{ prop.name }} ({{ getPropertyTypeLabel(prop.type) }})
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button 
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="onAddProperty()"
+        [disabled]="!selectedPropertyToAdd"
+        matTooltip="Adicionar propriedade selecionada"
+      >
+        <mat-icon>add</mat-icon>
+        Adicionar
+      </button>
+    </div>
+    
+    <div class="no-properties-message" *ngIf="getAvailableProperties().length === 0 && !loadingStandardProperties">
+      <mat-icon>info</mat-icon>
+      <span>Todas as propriedades padrão já foram adicionadas</span>
+    </div>
+    
+    <div class="loading-message" *ngIf="loadingStandardProperties">
+      <mat-spinner diameter="20"></mat-spinner>
+      <span>Carregando propriedades padrão...</span>
+    </div>
+  </div>
+
+  <!-- Lista de Propriedades Adicionadas -->
+  <div class="properties-list" *ngIf="getObjectKeys(properties).length > 0">
+    <mat-card 
+      *ngFor="let propertyName of getObjectKeys(properties); let i = index" 
+      class="property-card"
+    >
+      <mat-card-content>
+        <div class="property-form">
+          <div class="property-info">
+            <div class="property-name">
+              <h4>{{ propertyName }}</h4>
+              <mat-chip 
+                class="type-chip"
+                [class]="'type-' + (getPropertyDefinition(propertyName)?.type || 'text')"
+              >
+                {{ getPropertyTypeLabel(getPropertyDefinition(propertyName)?.type || 'text') }}
+              </mat-chip>
+            </div>
+            <div class="property-description" *ngIf="getPropertyDefinition(propertyName)?.description">
+              <p>{{ getPropertyDefinition(propertyName)?.description }}</p>
+            </div>
+          </div>
+          
+          <div class="property-value">
+            <!-- Campo de texto -->
+            <mat-form-field appearance="outline" class="value-field" 
+              *ngIf="getPropertyDefinition(propertyName)?.type === 'text'">
+              <mat-label>Valor</mat-label>
+              <input
+                matInput
+                type="text"
+                [value]="properties[propertyName]"
+                (input)="onTextInput(propertyName, $event)"
+                placeholder="Digite o valor"
+              />
+            </mat-form-field>
+
+            <!-- Campo numérico -->
+            <mat-form-field appearance="outline" class="value-field" 
+              *ngIf="getPropertyDefinition(propertyName)?.type === 'number'">
+              <mat-label>Valor</mat-label>
+              <input
+                matInput
+                type="number"
+                [value]="properties[propertyName]"
+                (input)="onNumberInput(propertyName, $event)"
+                placeholder="Digite o número"
+              />
+            </mat-form-field>
+
+            <!-- Campo de data -->
+            <mat-form-field appearance="outline" class="value-field" 
+              *ngIf="getPropertyDefinition(propertyName)?.type === 'date'">
+              <mat-label>Valor</mat-label>
+              <input
+                matInput
+                type="date"
+                [value]="properties[propertyName]"
+                (input)="onDateInput(propertyName, $event)"
+              />
+            </mat-form-field>
+
+            <!-- Campo booleano -->
+            <div class="boolean-field" *ngIf="getPropertyDefinition(propertyName)?.type === 'boolean'">
+              <mat-checkbox
+                [checked]="properties[propertyName]"
+                (change)="onPropertyValueChange(propertyName, $event.checked)"
+              >
+                {{ properties[propertyName] ? 'Sim' : 'Não' }}
+              </mat-checkbox>
+            </div>
+
+            <!-- Campo de seleção -->
+            <mat-form-field appearance="outline" class="value-field" 
+              *ngIf="getPropertyDefinition(propertyName)?.type === 'select'">
+              <mat-label>Valor</mat-label>
+              <mat-select
+                [value]="properties[propertyName]"
+                (selectionChange)="onPropertyValueChange(propertyName, $event.value)"
+              >
+                <mat-option 
+                  *ngFor="let option of getPropertyDefinition(propertyName)?.options" 
+                  [value]="option"
+                >
+                  {{ option }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <button
+            mat-icon-button
+            type="button"
+            color="warn"
+            (click)="onRemoveProperty(propertyName)"
+            matTooltip="Remover propriedade"
+            class="remove-btn"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Estado Vazio -->
+  <mat-card class="empty-state-card" *ngIf="getObjectKeys(properties).length === 0 && !loadingStandardProperties">
+    <mat-card-content>
+      <div class="empty-state">
+        <mat-icon class="empty-icon">settings</mat-icon>
+        <p>Nenhuma propriedade padrão adicionada.</p>
+        <p class="empty-hint">Use o seletor acima para adicionar propriedades pré-configuradas.</p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

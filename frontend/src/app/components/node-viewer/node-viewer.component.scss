@@ -1,0 +1,493 @@
+.node-viewer-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.dialog-header {
+  .header-content {
+    h2 {
+      margin: 0;
+    }
+  }
+}
+
+.dialog-content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.tab-content {
+  padding: 16px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+// Para a aba de Informações, usar layout vertical compacto
+.info-tab-content {
+  display: flex !important;
+  flex-direction: column !important;
+  grid-template-columns: none !important;
+  gap: 16px !important;
+}
+
+// Para a aba de Etapas, usar largura total
+.steps-tab-content {
+  display: block !important;
+  grid-template-columns: none !important;
+}
+
+// Header da tab de etapas
+.steps-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+
+  .manage-steps-header-btn {
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-weight: 500;
+    
+    mat-icon {
+      margin-right: 8px;
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+// Card de descrição clean
+.description-card {
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
+
+  .description-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+
+    .description-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .description-text {
+      line-height: 1.5;
+      flex: 1;
+    }
+  }
+}
+
+// Cards compactos
+.compact-card {
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
+
+  .compact-section {
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+
+      .section-icon {
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+      }
+
+      .section-title {
+        font-size: 1rem;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.info-card {
+  margin-bottom: 16px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .card-header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .card-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  label {
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
+
+  span {
+    font-size: 0.95rem;
+  }
+
+  .node-id {
+    font-family: 'Courier New', monospace;
+    font-size: 0.8rem;
+    background: #f5f5f5;
+    padding: 4px 8px;
+    border-radius: 4px;
+    word-break: break-all;
+  }
+}
+
+.workflow-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+// Grid de propriedades compacto
+.properties-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 8px;
+
+  .property-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
+
+    .property-label {
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    .property-value {
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+// Estado vazio
+.empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 24px;
+  font-style: italic;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border: 1px dashed #dee2e6;
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.property-section {
+  margin-bottom: 16px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  h4 {
+    margin: 0 0 12px 0;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+}
+
+.property-list {
+  display: grid;
+  gap: 8px;
+}
+
+.property-item {
+  display: flex;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  font-size: 0.9rem;
+
+  strong {
+    min-width: 120px;
+  }
+}
+
+.no-properties {
+  font-style: italic;
+  padding: 16px;
+  text-align: center;
+  background: #f8f9fa;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.steps-container {
+  display: grid;
+  gap: 8px;
+}
+
+.steps-actions {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e9ecef;
+  display: flex;
+  justify-content: center;
+
+  .manage-steps-action-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+.step-panel {
+  margin-bottom: 8px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.step-content {
+  padding: 16px 0;
+}
+
+.step-icon {
+  margin-right: 8px;
+}
+
+.step-description {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+
+.step-connections {
+  margin-bottom: 16px;
+
+  h5 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 12px 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .connections-list {
+    display: grid;
+    gap: 8px;
+  }
+
+  .connection-item {
+    background: white;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 0.85rem;
+
+    .connection-target {
+      font-weight: 500;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .connection-condition {
+      margin-bottom: 4px;
+    }
+  }
+}
+
+.step-decision {
+  margin-bottom: 16px;
+
+  h5 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 12px 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .decision-info {
+    background: #e3f2fd;
+    border: 1px solid #bbdefb;
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+}
+
+.step-workflows {
+  h5 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 12px 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .workflow-chips {
+    margin-top: 8px;
+  }
+}
+
+.no-connections {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  font-style: italic;
+  font-size: 0.9rem;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.no-steps {
+  text-align: center;
+  padding: 32px;
+  font-style: italic;
+  background: #f8f9fa;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+
+  .manage-steps-btn {
+    margin-top: 8px;
+  }
+}
+
+.audit-info {
+  display: grid;
+  gap: 8px;
+
+  .audit-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    font-size: 0.9rem;
+
+    .audit-label {
+      font-weight: 500;
+    }
+
+    .audit-value {
+      font-weight: 400;
+    }
+  }
+}
+
+.dialog-actions {
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+// Responsividade
+@media (max-width: 768px) {
+  .tab-content {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .info-tab-content {
+    gap: 12px !important;
+  }
+
+  .description-card {
+    .description-content {
+      flex-direction: column;
+      gap: 8px;
+
+      .description-icon {
+        align-self: flex-start;
+      }
+    }
+  }
+
+  .steps-header {
+    margin-bottom: 12px;
+
+    .manage-steps-header-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  .properties-grid {
+    grid-template-columns: 1fr;
+    gap: 6px;
+
+    .property-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+    }
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .dialog-actions {
+    flex-direction: column;
+
+    button {
+      width: 100%;
+    }
+  }
+}

@@ -1,0 +1,206 @@
+<div class="workflow-manager-content">
+  <!-- Header -->
+  <div mat-dialog-title class="dialog-header">
+    <div class="header-content">
+      <h2>Gerenciar Workflows</h2>
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Pesquisar workflows</mat-label>
+        <input matInput [(ngModel)]="searchTerm" (input)="onSearchChange()" placeholder="Digite para pesquisar...">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+    <button 
+      mat-raised-button
+      color="primary"
+      (click)="onCreateWorkflow()"
+      [disabled]="loading"
+    >
+      <mat-icon>add</mat-icon>
+      Novo Workflow
+    </button>
+  </div>
+
+  <!-- Content -->
+  <mat-dialog-content class="dialog-content">
+    <!-- Error Message -->
+    <mat-card class="error-card" *ngIf="error">
+      <mat-card-content>
+        <div class="error-content">
+          <mat-icon color="warn">warning</mat-icon>
+          <span>{{ error }}</span>
+          <button mat-icon-button (click)="error = null" aria-label="Fechar erro">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Loading -->
+    <div class="loading-container" *ngIf="loading && workflows.length === 0">
+      <mat-spinner diameter="40"></mat-spinner>
+      <span>Carregando workflows...</span>
+    </div>
+
+    <!-- Workflows List -->
+    <div class="workflows-container" *ngIf="!loading || filteredWorkflows.length > 0">
+      <mat-card class="workflow-card" *ngFor="let workflow of filteredWorkflows; trackBy: trackByWorkflowId">
+        <mat-card-header>
+          <mat-card-title>{{ workflow.name }}</mat-card-title>
+          <mat-card-subtitle>ID: {{ workflow.id }}</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content *ngIf="workflow.description">
+          <p>{{ workflow.description }}</p>
+        </mat-card-content>
+
+        <mat-card-content>
+          <div class="workflow-meta">
+            <div class="meta-item">
+              <span>Criado: {{ formatDate(workflow.createdAt) }}</span>
+            </div>
+            <div class="meta-item" *ngIf="workflow.updatedAt !== workflow.createdAt">
+              <span>Atualizado: {{ formatDate(workflow.updatedAt) }}</span>
+            </div>
+          </div>
+        </mat-card-content>
+
+        <mat-card-actions>
+          <button 
+            mat-stroked-button
+            color="primary"
+            (click)="onViewUsage(workflow)"
+            matTooltip="Ver uso do workflow"
+          >
+            <mat-icon>analytics</mat-icon>
+            Uso
+          </button>
+          <button 
+            mat-raised-button
+            color="primary"
+            (click)="onEditWorkflow(workflow)"
+            matTooltip="Editar workflow"
+          >
+            <mat-icon>edit</mat-icon>
+            Editar
+          </button>
+          <button 
+            mat-flat-button
+            color="warn"
+            (click)="onDeleteWorkflow(workflow)"
+            matTooltip="Deletar workflow"
+            [disabled]="loading"
+          >
+            <mat-icon>delete</mat-icon>
+            Deletar
+          </button>
+        </mat-card-actions>
+      </mat-card>
+
+      <!-- Empty State -->
+      <mat-card class="empty-state-card" *ngIf="filteredWorkflows.length === 0 && !loading">
+        <mat-card-content>
+          <div class="empty-state">
+            <h3>Nenhum workflow encontrado</h3>
+            <p>Crie seu primeiro workflow para começar a organizar seus processos.</p>
+            <button mat-raised-button color="primary" (click)="onCreateWorkflow()">
+              <mat-icon>add</mat-icon>
+              Criar Primeiro Workflow
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </mat-dialog-content>
+
+  <!-- Footer -->
+  <mat-dialog-actions class="dialog-actions">
+    <button mat-stroked-button (click)="onClose()">
+      <mat-icon>close</mat-icon>
+      Fechar
+    </button>
+  </mat-dialog-actions>
+</div>
+
+<!-- Workflow Editor Dialog -->
+<div class="workflow-editor-content" *ngIf="showEditor">
+  <!-- Header -->
+  <div mat-dialog-title class="dialog-header">
+    <div class="header-content">
+      <h2>{{ isEditing ? 'Editar Workflow' : 'Novo Workflow' }}</h2>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <mat-dialog-content class="dialog-content">
+    <form (ngSubmit)="onSaveWorkflow()" #workflowForm="ngForm">
+      <mat-card class="form-card">
+        <mat-card-content>
+          <div class="form-fields">
+            <!-- Nome -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Nome do Workflow</mat-label>
+              <input
+                matInput
+                type="text"
+                name="name"
+                [(ngModel)]="editedWorkflow.name"
+                required
+                maxlength="100"
+                placeholder="Digite o nome do workflow"
+              />
+              <mat-hint align="end">{{ editedWorkflow.name?.length || 0 }}/100</mat-hint>
+            </mat-form-field>
+
+            <!-- Descrição -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Descrição</mat-label>
+              <textarea
+                matInput
+                name="description"
+                [(ngModel)]="editedWorkflow.description"
+                maxlength="500"
+                placeholder="Descreva o propósito deste workflow"
+                rows="3"
+              ></textarea>
+              <mat-hint align="end">{{ editedWorkflow.description?.length || 0 }}/500</mat-hint>
+            </mat-form-field>
+
+            <!-- ID (somente leitura para edição) -->
+            <mat-form-field appearance="outline" class="full-width" *ngIf="isEditing">
+              <mat-label>ID do Workflow</mat-label>
+              <input
+                matInput
+                type="text"
+                [value]="editedWorkflow.id"
+                readonly
+              />
+              <mat-hint>O ID não pode ser alterado</mat-hint>
+            </mat-form-field>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </form>
+  </mat-dialog-content>
+
+  <!-- Footer -->
+  <mat-dialog-actions class="dialog-actions">
+    <button 
+      mat-button
+      (click)="onCloseEditor()"
+      [disabled]="loading"
+    >
+      <mat-icon>close</mat-icon>
+      Cancelar
+    </button>
+    <button 
+      mat-raised-button
+      color="primary"
+      (click)="onSaveWorkflow()"
+      [disabled]="loading || !editedWorkflow.name?.trim()"
+    >
+      <mat-spinner diameter="20" *ngIf="loading"></mat-spinner>
+      <mat-icon *ngIf="!loading">{{ isEditing ? 'save' : 'add' }}</mat-icon>
+      {{ isEditing ? 'Atualizar' : 'Criar' }} Workflow
+    </button>
+  </mat-dialog-actions>
+</div>

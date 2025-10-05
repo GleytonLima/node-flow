@@ -1,0 +1,45 @@
+<div class="app-layout">
+  <app-app-bar 
+    (workflowsClick)="onAppBarWorkflowsClick()"
+    (standardPropertiesClick)="onStandardPropertiesClick()"
+    (exportClick)="onExportClick()"
+  ></app-app-bar>
+  
+  <!-- Filtros Horizontais -->
+  <app-horizontal-filters (searchResults)="onSearchResults($event)"></app-horizontal-filters>
+  
+  <div class="app-body">
+    <app-sidebar 
+      (nodeSelected)="onNodeSelected($event)"
+      (nodeEdit)="onNodeEdit($event)"
+      (nodeConnections)="onNodeConnections($event)"
+    ></app-sidebar>
+    
+    <main class="main-content">
+      <app-vis-canvas 
+        (nodeSelected)="onNodeSelected($event)"
+        (createNode)="onCreateNode()"
+      ></app-vis-canvas>
+    </main>
+  </div>
+</div>
+
+<!-- Modais agora são abertos via MatDialog service -->
+
+<!-- Advanced Search Modal -->
+<div class="modal-overlay" *ngIf="showAdvancedSearch" (click)="onAdvancedSearchClose()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Busca Avançada</h2>
+      <button class="close-button" (click)="onAdvancedSearchClose()">×</button>
+    </div>
+    <div class="modal-content">
+      <app-advanced-search></app-advanced-search>
+    </div>
+  </div>
+</div>
+
+<!-- Modais agora são abertos via MatDialog service -->
+
+
+<router-outlet />

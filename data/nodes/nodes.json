@@ -1,0 +1,244 @@
+{
+  "version": "1.0",
+  "nodes": [
+    {
+      "id": "ff228857-e2a9-4071-82a2-cce08f7dac51",
+      "name": "Projeto A",
+      "description": "Descrição do novo nó",
+      "workflows": [
+        "44e2f760-2655-4058-8f21-89ee603eb830",
+        "default"
+      ],
+      "properties": {
+        "standardProps": {
+          "Prioridade": "Alta",
+          "Status": "sadf"
+        },
+        "customProps": {}
+      },
+      "steps": [
+        {
+          "id": "bd05b3cb-cbcb-4beb-bf52-c1fffc63f5b0",
+          "type": "process",
+          "name": "Início do Projeto A",
+          "description": "Primeira etapa do Projeto A - início do processo",
+          "workflows": [
+            "default"
+          ],
+          "connections": [
+            {
+              "targetNodeId": "57348a5f-e013-4ad6-92f1-7dc8b71d4126",
+              "condition": ""
+            }
+          ],
+          "properties": {},
+          "createdAt": "2025-10-03T13:25:29.396Z",
+          "updatedAt": "2025-10-04T15:01:05.908Z"
+        },
+        {
+          "id": "00506806-9fbd-4ecd-8845-c56d9cf8b2ed",
+          "type": "decision",
+          "name": "Verificar Aprovação",
+          "description": "Etapa de decisão para verificar se o projeto foi aprovado pelo cliente",
+          "workflows": [
+            "default"
+          ],
+          "connections": [],
+          "properties": {},
+          "createdAt": "2025-10-03T15:53:50.542Z",
+          "updatedAt": "2025-10-04T17:14:43.787Z",
+          "decisionStepId": null
+        }
+      ],
+      "createdAt": "2025-10-02T16:15:43.917Z",
+      "updatedAt": "2025-10-04T20:46:22.022Z"
+    },
+    {
+      "id": "57348a5f-e013-4ad6-92f1-7dc8b71d4126",
+      "name": "TEste",
+      "description": "Descrição do novo nó",
+      "workflows": [
+        "44e2f760-2655-4058-8f21-89ee603eb830"
+      ],
+      "properties": {
+        "standardProps": {},
+        "customProps": {}
+      },
+      "steps": [
+        {
+          "id": "dd9e22af-6325-4241-8d1f-55ed0af9a600",
+          "type": "process",
+          "name": "Teste",
+          "description": "Teste",
+          "workflows": [
+            "default"
+          ],
+          "connections": [],
+          "properties": {},
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "createdAt": "2025-10-02T22:20:50.151Z",
+          "updatedAt": "2025-10-02T22:22:13.559Z"
+        }
+      ],
+      "createdAt": "2025-10-02T19:50:50.984Z",
+      "updatedAt": "2025-10-04T04:11:05.229Z"
+    },
+    {
+      "id": "c6d1e3ea-dad8-4bd6-b8fd-b5c531e0c35d",
+      "name": "Frontend",
+      "description": "Interface de usuário para contratação de empréstimos bancários",
+      "workflows": [
+        "default"
+      ],
+      "properties": {
+        "standardProps": {},
+        "customProps": {}
+      },
+      "steps": [
+        {
+          "id": "bd6bfac4-525c-4037-b9fd-fdb7b4dda483",
+          "type": "process",
+          "name": "Consultar BFF",
+          "description": "Consulta o BFF",
+          "workflows": [
+            "default"
+          ],
+          "connections": [
+            {
+              "targetNodeId": "043c0b44-e8ac-4e0b-9e90-4b7acdbb352a",
+              "condition": ""
+            }
+          ],
+          "properties": {},
+          "createdAt": "2025-10-04T14:41:23.062Z",
+          "updatedAt": "2025-10-04T14:45:25.357Z"
+        }
+      ],
+      "createdAt": "2025-10-03T23:04:24.453Z",
+      "updatedAt": "2025-10-04T14:45:25.357Z"
+    },
+    {
+      "id": "043c0b44-e8ac-4e0b-9e90-4b7acdbb352a",
+      "name": "BFF",
+      "description": "Backend for Frontend - Camada de orquestração e validação para contratação de empréstimos",
+      "workflows": [
+        "default"
+      ],
+      "properties": {
+        "standardProps": {
+          "Prioridade": "Baixa"
+        },
+        "customProps": {}
+      },
+      "steps": [
+        {
+          "id": "7d8da0a1-9aa3-4d36-ba86-e855e53e0810",
+          "type": "process",
+          "name": "Consulta Backend",
+          "description": "Faz coisas",
+          "workflows": [
+            "default"
+          ],
+          "connections": [
+            {
+              "targetNodeId": "c1aad9e1-1872-4908-9343-501f7887f925",
+              "condition": ""
+            }
+          ],
+          "properties": {},
+          "createdAt": "2025-10-04T14:47:55.016Z",
+          "updatedAt": "2025-10-04T14:47:55.016Z"
+        },
+        {
+          "id": "c7259572-1dc5-4576-bc01-0629add56ef5",
+          "type": "decision",
+          "name": "Condição",
+          "description": "Decisão",
+          "workflows": [
+            "default"
+          ],
+          "connections": [],
+          "properties": {},
+          "createdAt": "2025-10-04T15:11:28.642Z",
+          "updatedAt": "2025-10-04T15:43:23.383Z",
+          "decisionStepId": null
+        },
+        {
+          "id": "e40dfbd7-6cda-4cb3-8ba2-c4cd8acb71b2",
+          "type": "conditional",
+          "name": "Decidir Algo",
+          "description": "Teste",
+          "workflows": [
+            "default"
+          ],
+          "connections": [
+            {
+              "targetNodeId": "ff228857-e2a9-4071-82a2-cce08f7dac51",
+              "condition": ""
+            }
+          ],
+          "properties": {},
+          "decisionStepId": "c7259572-1dc5-4576-bc01-0629add56ef5",
+          "createdAt": "2025-10-04T15:46:09.487Z",
+          "updatedAt": "2025-10-04T17:22:56.176Z"
+        },
+        {
+          "id": "9c603538-3747-4ddb-a58f-c37c2979d5f1",
+          "type": "conditional",
+          "name": "Decidir Outra Coisa",
+          "description": "Decide outra coisa",
+          "workflows": [
+            "default"
+          ],
+          "connections": [
+            {
+              "targetNodeId": "57348a5f-e013-4ad6-92f1-7dc8b71d4126"
+            }
+          ],
+          "properties": {},
+          "decisionStepId": "c7259572-1dc5-4576-bc01-0629add56ef5",
+          "createdAt": "2025-10-04T20:28:44.808Z",
+          "updatedAt": "2025-10-04T20:36:44.954Z"
+        },
+        {
+          "id": "5af49f6a-4e57-42ad-a303-96a72fee914b",
+          "type": "conditional",
+          "name": "Decidir Assado",
+          "description": "",
+          "workflows": [
+            "default"
+          ],
+          "connections": [
+            {
+              "targetNodeId": "c1aad9e1-1872-4908-9343-501f7887f925"
+            }
+          ],
+          "properties": {},
+          "decisionStepId": "c7259572-1dc5-4576-bc01-0629add56ef5",
+          "createdAt": "2025-10-04T20:50:52.105Z",
+          "updatedAt": "2025-10-04T20:50:52.105Z"
+        }
+      ],
+      "createdAt": "2025-10-03T23:05:43.658Z",
+      "updatedAt": "2025-10-04T20:51:21.256Z"
+    },
+    {
+      "id": "c1aad9e1-1872-4908-9343-501f7887f925",
+      "name": "Backend",
+      "description": "Serviços de backend para processamento e persistência de dados de contratação de empréstimos",
+      "workflows": [
+        "default"
+      ],
+      "properties": {
+        "standardProps": {},
+        "customProps": {}
+      },
+      "steps": [],
+      "createdAt": "2025-10-03T23:06:02.529Z",
+      "updatedAt": "2025-10-03T23:06:16.831Z"
+    }
+  ]
+}

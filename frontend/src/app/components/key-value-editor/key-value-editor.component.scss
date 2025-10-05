@@ -1,0 +1,120 @@
+.key-value-editor {
+  .editor-header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .pairs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .pair-card {
+    transition: all 0.2s ease;
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .pair-form {
+      display: flex;
+      gap: 16px;
+      align-items: flex-end;
+
+      .form-fields {
+        display: flex;
+        gap: 16px;
+        flex: 1;
+
+        .key-field {
+          min-width: 150px;
+          flex: 1;
+        }
+
+        .value-field {
+          flex: 2;
+
+          .type-chip {
+            font-size: 0.7rem;
+            height: 20px;
+            line-height: 20px;
+
+            &.json-chip {
+              background: #e8f5e8;
+              color: #2e7d32;
+            }
+
+            &.string-chip {
+              background: #e3f2fd;
+              color: #1976d2;
+            }
+          }
+        }
+      }
+
+      .remove-btn {
+        flex-shrink: 0;
+      }
+    }
+  }
+
+  .empty-state-card {
+    .empty-state {
+      text-align: center;
+      padding: 32px 20px;
+      color: #666;
+
+      .empty-icon {
+        font-size: 48px;
+        width: 48px;
+        height: 48px;
+        margin-bottom: 16px;
+        opacity: 0.5;
+      }
+
+      p {
+        margin: 0 0 16px 0;
+        font-size: 1rem;
+        line-height: 1.5;
+      }
+    }
+  }
+}
+
+// Responsividade
+@media (max-width: 768px) {
+  .key-value-editor {
+    .editor-header {
+      flex-direction: column;
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .pair-card {
+      .pair-form {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+
+        .form-fields {
+          flex-direction: column;
+          gap: 12px;
+
+          .key-field,
+          .value-field {
+            min-width: auto;
+            width: 100%;
+          }
+        }
+
+        .remove-btn {
+          align-self: flex-end;
+        }
+      }
+    }
+  }
+}

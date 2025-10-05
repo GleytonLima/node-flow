@@ -1,0 +1,161 @@
+.node-editor-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.dialog-header {
+  .header-content {
+    h2 {
+      margin: 0;
+    }
+  }
+}
+
+.dialog-content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.tab-content {
+  padding: 16px 0;
+  width: 100%;
+}
+
+.form-card {
+  margin-bottom: 16px;
+  width: 100%;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.workflows-container {
+  .workflow-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+    padding: 16px;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    background: #f8f9fa;
+
+    .workflow-selector {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+
+      .workflow-select {
+        flex: 1;
+      }
+    }
+
+    .workflow-info {
+      margin-top: 4px;
+      padding-left: 4px;
+    }
+  }
+
+  .add-workflow-btn {
+    margin-top: 8px;
+  }
+
+  .loading-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px;
+    font-style: italic;
+  }
+}
+
+.audit-info {
+  display: grid;
+  gap: 8px;
+
+  .audit-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    font-size: 0.9rem;
+
+    mat-label {
+      font-weight: 500;
+    }
+
+    span {
+      font-family: monospace;
+      font-size: 13px;
+    }
+  }
+}
+
+.steps-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+
+  .view-steps-btn {
+    flex: 1;
+    max-width: 200px;
+  }
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+
+  .footer-left,
+  .footer-right {
+    display: flex;
+    gap: 8px;
+  }
+}
+
+// Responsividade
+@media (max-width: 768px) {
+  .dialog-content {
+    max-height: 60vh;
+  }
+
+  .dialog-actions {
+    flex-direction: column;
+    gap: 8px;
+
+    .footer-left,
+    .footer-right {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  .workflow-item {
+    .workflow-selector {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+}

@@ -1,0 +1,161 @@
+<div class="standard-property-manager-content">
+  <!-- Header -->
+  <div mat-dialog-title class="dialog-header">
+    <div class="header-content">
+      <h2>Gerenciar Propriedades Padrão</h2>
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Pesquisar propriedades</mat-label>
+        <input matInput [(ngModel)]="searchTerm" (input)="onSearchChange()" placeholder="Digite para pesquisar...">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+    <button 
+      mat-raised-button
+      color="primary"
+      (click)="openCreateModal()" 
+      [disabled]="isLoading"
+      matTooltip="Criar nova propriedade padrão"
+    >
+      <mat-icon>add</mat-icon>
+      Nova Propriedade
+    </button>
+  </div>
+
+  <!-- Content -->
+  <div class="dialog-content">
+    <!-- Error Message -->
+    <mat-card class="error-card" *ngIf="error">
+      <mat-card-content>
+        <div class="error-content">
+          <mat-icon color="warn">warning</mat-icon>
+          <span>{{ error }}</span>
+          <button mat-icon-button (click)="error = null" aria-label="Fechar erro">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Loading State -->
+    <div class="loading-container" *ngIf="isLoading && properties.length === 0">
+      <mat-spinner diameter="40"></mat-spinner>
+      <span>Carregando propriedades...</span>
+    </div>
+
+    <!-- Properties List -->
+    <div class="properties-container" *ngIf="!isLoading || filteredProperties.length > 0">
+      <mat-card 
+        *ngFor="let property of filteredProperties" 
+        class="property-card"
+      >
+      <mat-card-header>
+        <div class="property-header">
+          <div class="property-info">
+            <mat-card-title>{{ property.name }}</mat-card-title>
+            <mat-card-subtitle>
+              <mat-chip 
+                class="type-chip"
+                [class]="'type-' + property.type"
+              >
+                {{ getTypeLabel(property.type) }}
+              </mat-chip>
+              <mat-chip 
+                *ngIf="property.required" 
+                color="warn"
+                class="required-chip"
+              >
+                Obrigatório
+              </mat-chip>
+            </mat-card-subtitle>
+          </div>
+          <div class="property-actions">
+            <button 
+              mat-icon-button
+              color="primary"
+              (click)="openEditModal(property)" 
+              matTooltip="Editar propriedade"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button 
+              mat-icon-button
+              color="warn"
+              (click)="openDeleteModal(property)" 
+              matTooltip="Excluir propriedade"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <div class="property-details">
+          <p class="property-description" *ngIf="property.description">
+            {{ property.description }}
+          </p>
+          
+          <div class="property-options" *ngIf="property.type === 'select' && property.options.length > 0">
+            <h4>
+              Opções:
+            </h4>
+            <div class="options-chips">
+              <mat-chip 
+                *ngFor="let option of property.options"
+                class="option-chip"
+              >
+                {{ option }}
+              </mat-chip>
+            </div>
+          </div>
+          
+          <div class="property-default" *ngIf="property.defaultValue">
+            <h4>
+              Valor padrão:
+            </h4>
+            <mat-chip class="default-chip">
+              {{ property.defaultValue }}
+            </mat-chip>
+          </div>
+          
+          <div class="property-meta">
+            <div class="meta-item">
+              <span>Criado: {{ formatDate(property.createdAt) }}</span>
+            </div>
+            <div class="meta-item" *ngIf="property.updatedAt !== property.createdAt">
+              <span>Atualizado: {{ formatDate(property.updatedAt) }}</span>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+      <!-- Empty State -->
+      <mat-card class="empty-state-card" *ngIf="filteredProperties.length === 0 && !isLoading">
+        <mat-card-content>
+          <div class="empty-state">
+            <h3>Nenhuma propriedade padrão encontrada</h3>
+            <p>Crie sua primeira propriedade padrão para começar a organizar seus dados.</p>
+            <button 
+              mat-raised-button
+              color="primary"
+              (click)="openCreateModal()"
+              matTooltip="Criar primeira propriedade"
+            >
+              <mat-icon>add</mat-icon>
+              Criar Primeira Propriedade
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="dialog-actions">
+    <button mat-stroked-button (click)="onClose()">
+      <mat-icon>close</mat-icon>
+      Fechar
+    </button>
+  </div>
+</div>

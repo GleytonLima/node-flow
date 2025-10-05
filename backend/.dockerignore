@@ -1,0 +1,24 @@
+# Excluir node_modules (será instalado no container)
+node_modules/
+
+# Excluir arquivos de desenvolvimento
+*.log
+*.tmp
+*.temp
+
+# Excluir arquivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Excluir arquivos de sistema
+.DS_Store
+Thumbs.db
+
+# Excluir arquivos de teste
+coverage/
+.nyc_output/
+
+# Excluir arquivos de cache
+.cache/

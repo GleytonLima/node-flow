@@ -1,0 +1,26 @@
+{
+  "version": "1.0",
+  "workflows": [
+    {
+      "id": "default",
+      "name": "Workflow Padrão",
+      "description": "Workflow padrão para novos nós",
+      "createdAt": "2025-01-01T00:00:00.000Z",
+      "updatedAt": "2025-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "44e2f760-2655-4058-8f21-89ee603eb830",
+      "name": "Workflow de Desenvolvimento",
+      "description": "Workflow para gerenciar processos de desenvolvimento de software",
+      "createdAt": "2025-10-03T18:18:58.372Z",
+      "updatedAt": "2025-10-03T18:18:58.372Z"
+    },
+    {
+      "id": "ca23c8d6-595c-419e-b750-066a1dec6361",
+      "name": "Contratação de Empréstimo",
+      "description": "Workflow para gerenciar o processo de contratação de empréstimos bancários",
+      "createdAt": "2025-10-03T23:03:35.480Z",
+      "updatedAt": "2025-10-03T23:03:35.480Z"
+    }
+  ]
+}
